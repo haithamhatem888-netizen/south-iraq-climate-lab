@@ -1,0 +1,13 @@
+{
+  "layer_name": "الغطاء النباتي العام",
+  "developer": "هيثم",
+  "ndvi_source": "Sentinel-2 2026",
+  "governorates": [
+    {"name": "البصرة", "ndvi_avg": 0.12, "density_percent": 15, "status": "متدهور"},
+    {"name": "الناصرية", "ndvi_avg": 0.18, "density_percent": 22, "status": "متوسط"},
+    {"name": "العمارة", "ndvi_avg": 0.25, "density_percent": 35, "status": "جيد - بسبب الأهوار"},
+    {"name": "السماوة", "ndvi_avg": 0.08, "density_percent": 8, "status": "شبه معدوم - صحراوي"},
+    {"name": "الديوانية", "ndvi_avg": 0.22, "density_percent": 28, "status": "متوسط"},
+    {"name": "الكوت", "ndvi_avg": 0.28, "density_percent": 38, "status": "جيد"}
+  ]
+}

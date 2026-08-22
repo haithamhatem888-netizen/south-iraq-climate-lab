@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مختبر مناخ جنوب العراق - هيثم حاتم</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+body{margin:0;font-family:'Segoe UI',Tahoma;background:#0f172a;color:#fff}
+.header{background:#1e293b;padding:15px;text-align:center;border-bottom:3px solid #38bdf8}
+.header h1{margin:0;color:#38bdf8}
+.header p{margin:5px 0 0;color:#94a3b8}
+.container{display:flex;height:calc(100vh - 85px)}
+.sidebar{width:320px;background:#1e293b;padding:15px;overflow-y:auto}
+.layer{ background:#334155; margin:8px 0; padding:10px; border-radius:8px; cursor:pointer; transition:0.3s; border-right:4px solid transparent}
+.layer:hover{ background:#475569; border-right-color:#38bdf8}
+.layer.active{ background:#0ea5e9; border-right-color:#fff}
+#map{flex:1}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;background:#0f172a;margin-top:5px}
+.stats{background:#0f172a;padding:10px;border-radius:8px;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🌍 مختبر مناخ جنوب العراق</h1>
+<p>المطور: هيثم حاتم - الناصرية - 2026 | 12 طبقة بيئية</p>
+</div>
+<div class="container">
+<div class="sidebar">
+<h3>📊 الطبقات (12)</h3>
+<div id="layers"></div>
+<div class="stats" id="info">
+<b>💡 اضغط على أي طبقة</b><br>
+البيانات: 6 محافظات جنوبية<br>
+البصرة - الناصرية - السماوة - العمارة - الديوانية - الكوت
+</div>
+</div>
+<div id="map"></div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map('map').setView([31.0, 46.5], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+const layersConfig = [
+ {file:'data/water/rivers.json', name:'🌊 الأنهار', color:'#38bdf8'},
+ {file:'data/water/water-bodies.json', name:'💧 المسطحات', color:'#0ea5e9'},
+ {file:'data/water/ponds.json', name:'🏞️ الأهوار', color:'#06b6d4'},
+ {file:'data/water/groundwater.json', name:'🚰 المياه الجوفية', color:'#0891b2'},
+ {file:'data/land/dunes.json', name:'🏜️ الكثبان', color:'#fbbf24'},
+ {file:'data/land/land-use.json', name:'🗺️ استعمالات الأرض', color:'#a3e635'},
+ {file:'data/climate/precipitation.json', name:'🌧️ الأمطار', color:'#60a5fa'},
+ {file:'data/climate/temperature.json', name:'🌡️ الحرارة', color:'#ef4444'},
+ {file:'data/climate/drought.json', name:'☀️ الجفاف', color:'#f97316'},
+ {file:'data/vegetation/vegetation.json', name:'🌿 الغطاء النباتي', color:'#22c55e'},
+ {file:'data/vegetation/palm.json', name:'🌴 النخيل', color:'#16a34a'},
+ {file:'data/pollution/pollution.json', name:'🏭 التلوث', color:'#a855f7'}
+];
+
+let markers = L.layerGroup().addTo(map);
+const listDiv = document.getElementById('layers');
+const infoDiv = document.getElementById('info');
+
+layersConfig.forEach((l,i)=>{
+ const div = document.createElement('div');
+ div.className='layer';
+ div.innerHTML = `${l.name}<br><span class="badge">${l.file}</span>`;
+ div.onclick = async ()=>{
+  document.querySelectorAll('.layer').forEach(x=>x.classList.remove('active'));
+  div.classList.add('active');
+  try{
+   const res = await fetch(l.file);
+   const data = await res.json();
+   markers.clearLayers();
+   infoDiv.innerHTML = `<b>${l.name}</b><br><pre style="white-space:pre-wrap;font-size:11px">${JSON.stringify(data,null,2).substring(0,800)}</pre>`;
+   // إضافة ماركرات وهمية للمحافظات
+   [[31.0,47.8,'البصرة'],[31.0,46.2,'الناصرية'],[31.3,45.2,'السماوة'],[31.8,47.1,'العمارة'],[31.9,44.9,'الديوانية'],[32.5,45.8,'الكوت']].forEach(p=>{
+     L.marker([p[0],p[1]]).addTo(markers).bindPopup(`<b>${p[2]}</b><br>${l.name}<br>المطور: هيثم حاتم`);
+   });
+  }catch(e){
+   infoDiv.innerHTML = `❌ خطأ بتحميل ${l.file}<br>${e.message}`;
+  }
+ };
+ listDiv.appendChild(div);
+});
+</script>
+</body>
+</html>

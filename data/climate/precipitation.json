@@ -1,0 +1,14 @@
+{
+  "layer_name": "معدلات الأمطار",
+  "developer": "هيثم",
+  "period": "2020-2026",
+  "unit": "ملم/سنة",
+  "governorates": [
+    {"name": "البصرة", "annual_mm": 120, "trend": "تناقص 20%", "season": "شتاء"},
+    {"name": "الناصرية", "annual_mm": 145, "trend": "تناقص 15%", "season": "شتاء"},
+    {"name": "العمارة", "annual_mm": 180, "trend": "تناقص 10%", "season": "شتاء وربيع"},
+    {"name": "السماوة", "annual_mm": 90, "trend": "تناقص 30%", "season": "شتاء"},
+    {"name": "الديوانية", "annual_mm": 160, "trend": "تناقص 18%", "season": "شتاء"},
+    {"name": "الكوت", "annual_mm": 200, "trend": "تناقص 12%", "season": "شتاء وربيع"}
+  ]
+}

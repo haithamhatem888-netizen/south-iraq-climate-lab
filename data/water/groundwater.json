@@ -1,0 +1,12 @@
+{
+  "layer_name": "المياه الجوفية",
+  "developer": "هيثم",
+  "governorates": [
+    {"name": "البصرة", "depth_m": 12.5, "quality": "مالحة"},
+    {"name": "الناصرية", "depth_m": 8.2, "quality": "متوسطة"},
+    {"name": "العمارة", "depth_m": 6.8, "quality": "عذبة"},
+    {"name": "السماوة", "depth_m": 15.3, "quality": "مالحة جدا"},
+    {"name": "الديوانية", "depth_m": 9.1, "quality": "متوسطة"},
+    {"name": "الكوت", "depth_m": 7.5, "quality": "عذبة"}
+  ]
+}

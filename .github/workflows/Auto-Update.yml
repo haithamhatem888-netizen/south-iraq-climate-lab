@@ -1,42 +1,18 @@
-name: Auto Update Climate Data
-on:
-  schedule:
-    - cron: '0 0 * * 0'  # كل يوم أحد الساعة 00:00
-  workflow_dispatch:      # تشغيل يدوي من GitHub
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      
-      - name: Fetch NASA POWER Data
-        run: |
-          mkdir -p data/live
-          echo "جلب بيانات NASA لجنوب العراق..."
-          
-          # البصرة
-          curl -s "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=47.78&latitude=30.50&start=20240101&end=20241231&format=JSON" -o data/live/basra_nasa.json
-          
-          # الناصرية
-          curl -s "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=46.26&latitude=31.05&start=20240101&end=20241231&format=JSON" -o data/live/nasiriyah_nasa.json
-          
-          echo "✅ تم جلب البيانات"
-          ls -lh data/live/
-      
-      - name: Update timestamp
-        run: |
-          echo "{\"last_update\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"developer\": \"هيثم حاتم - الناصرية\", \"auto\": true}" > data/live/last_update.json
-      
-      - name: Commit and Push
-        run: |
-          git config user.name "Climate Bot - هيثم حاتم"
-          git config user.email "haitham@climate.lab"
-          git add data/live/
-          git commit -m "🤖 تحديث تلقائي - $(date +%Y-%m-%d) - NASA POWER - هيثم حاتم" || echo "لا يوجد تغيير"
-          git push
+name: Auto Update Climate Data 
+on: 
+  schedule: 
+    - cron: '0 0 * * 0' 
+  workflow_dispatch: 
+jobs: 
+  update: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v3 
+      - name: Fetch NASA 
+        run: mkdir -p data/live && curl -s "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR^&community=AG^&longitude=47.78^&latitude=30.50^&start=20240101^&end=20241231^&format=JSON" -o data/live/basra_nasa.json 
+      - name: Commit 
+          git config user.name "Climate Bot" 
+          git config user.email "bot@climate.lab" 
+          git add data/live/ 
+          git commit -m "auto update $(date)" || echo "no change" 
+          git push 

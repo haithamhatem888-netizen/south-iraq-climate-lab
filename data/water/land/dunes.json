@@ -1,0 +1,31 @@
+{
+  "layer_name": "الكثبان الرملية",
+  "developer": "هيثم",
+  "region": "جنوب العراق - بادية السماوة",
+  "dunes": [
+    {
+      "name": "كثبان السماوة الكبرى",
+      "governorate": "السماوة",
+      "height_m": 25,
+      "movement_rate": "15 متر/سنة",
+      "direction": "شمال غرب",
+      "risk": "عالي على القرى"
+    },
+    {
+      "name": "كثبان البصرة الغربية",
+      "governorate": "البصرة",
+      "height_m": 12,
+      "movement_rate": "8 متر/سنة",
+      "direction": "شمال",
+      "risk": "متوسط"
+    },
+    {
+      "name": "كثبان الناصرية الجنوبية",
+      "governorate": "الناصرية",
+      "height_m": 18,
+      "movement_rate": "12 متر/سنة",
+      "direction": "شمال شرق",
+      "risk": "عالي على الزراعة"
+    }
+  ]
+}

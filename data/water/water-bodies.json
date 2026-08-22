@@ -1,0 +1,39 @@
+{
+  "layer_name": "المسطحات المائية والأهوار",
+  "developer": "هيثم",
+  "date": "2026-08-22",
+  "water_bodies": [
+    {
+      "name": "هور الحمار",
+      "governorate": "الناصرية",
+      "area_km2": 3000,
+      "water_level": "منخفض",
+      "salinity": "متوسطة",
+      "status": "مهدد بالجفاف"
+    },
+    {
+      "name": "هور الحويزة",
+      "governorate": "العمارة",
+      "area_km2": 2500,
+      "water_level": "متوسط",
+      "salinity": "عذبة",
+      "status": "مستقر"
+    },
+    {
+      "name": "الأهوار الوسطى",
+      "governorate": "الناصرية-العمارة",
+      "area_km2": 2000,
+      "water_level": "منخفض جدا",
+      "salinity": "مالحة",
+      "status": "خطير"
+    },
+    {
+      "name": "شط العرب",
+      "governorate": "البصرة",
+      "area_km2": 500,
+      "water_level": "متوسط",
+      "salinity": "مالحة جدا",
+      "status": "تلوث عالي"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "layer_name": "درجات الحرارة",
+  "developer": "هيثم",
+  "year": 2026,
+  "governorates": [
+    {"name": "البصرة", "avg_summer_c": 48.5, "max_recorded_c": 53.2, "avg_winter_c": 15.2},
+    {"name": "الناصرية", "avg_summer_c": 47.8, "max_recorded_c": 52.5, "avg_winter_c": 14.8},
+    {"name": "العمارة", "avg_summer_c": 46.5, "max_recorded_c": 51.0, "avg_winter_c": 13.5},
+    {"name": "السماوة", "avg_summer_c": 48.0, "max_recorded_c": 52.8, "avg_winter_c": 12.0},
+    {"name": "الديوانية", "avg_summer_c": 45.5, "max_recorded_c": 50.2, "avg_winter_c": 13.0},
+    {"name": "الكوت", "avg_summer_c": 44.8, "max_recorded_c": 49.5, "avg_winter_c": 12.5}
+  ],
+  "note": "ارتفاع 2-3 درجات عن معدل 2000-2010"
+}

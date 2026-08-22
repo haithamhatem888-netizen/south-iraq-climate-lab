@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V5 PRO INTERACTIVE - مختبر مناخ جنوب العراق - هيثم حاتم</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--green:#22c55e;--bg:#0f172a;--card:#1e293b}
+body{margin:0;font-family:'Segoe UI',Tahoma;background:var(--bg);color:#fff}
+.header{background:var(--card);padding:10px 16px;border-bottom:3px solid var(--green);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.live{background:var(--green);color:#000;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:bold}
+.controls{background:#1e293b;padding:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #334155}
+.controls input, .controls select{padding:8px;border-radius:6px;border:0;background:#0f172a;color:#fff}
+.btn{ background:#38bdf8; color:#000; border:0; padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:bold}
+.btn-green{background:var(--green)}
+.container{display:flex;height:calc(100vh - 125px)}
+.sidebar{width:400px;background:var(--card);padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+#map{flex:1}
+.card{background:#0f172a;padding:12px;border-radius:8px}
+.chartBox{background:#0f172a;padding:8px;border-radius:8px}
+.layer{ background:#334155; margin:3px 0; padding:8px; border-radius:6px; cursor:pointer; font-size:13px}
+.layer.active{background:#16a34a}
+</style>
+</head>
+<body>
+<div class="header">
+<div><b style="color:var(--green)">🌍 V5 PRO INTERACTIVE</b> - مختبر مناخ جنوب العراق <small style="color:#94a3b8">هيثم حاتم - الناصرية</small></div>
+<div class="live" id="liveBadge">● LIVE</div>
+</div>
+
+<div class="controls">
+<label>🏙️ المدينة:</label>
+<select id="citySelect"><option value="basra">البصرة</option><option value="nasiriyah" selected>الناصرية</option><option value="samawa">السماوة</option><option value="amarah">العمارة</option></select>
+<label>📅 من:</label><input type="date" id="fromDate" value="2024-01-01">
+<label>إلى:</label><input type="date" id="toDate" value="2024-12-31">
+<label>📊 نوع:</label><select id="paramSelect"><option value="T2M">حرارة</option><option value="PRECTOTCORR">أمطار</option><option value="RH2M">رطوبة</option><option value="WS2M">رياح</option></select>
+<button class="btn" onclick="fetchCustom()">🔍 بحث</button>
+<button class="btn btn-green" onclick="exportCSV()">💾 CSV</button>
+<button class="btn" onclick="compareCities()">⚖️ مقارنة مدينتين</button>
+</div>
+
+<div class="container">
+<div class="sidebar">
+<div class="card" id="stats">اختر مدينة وفترة واضغط بحث لجلب بيانات NASA الحية...</div>
+<div class="chartBox"><canvas id="climateChart" height="200"></canvas></div>
+<div id="layers"></div>
+</div>
+<div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const CITIES={basra:{lat:30.5,lon:47.78,name:"البصرة"},nasiriyah:{lat:31.05,lon:46.26,name:"الناصرية"},samawa:{lat:31.33,lon:45.28,name:"السماوة"},amarah:{lat:31.84,lon:47.14,name:"العمارة"}};
+const map=L.map('map').setView([31.05,46.26],8); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+let markers=L.layerGroup().addTo(map); let chart; let lastData=null;
+
+function drawMap(){markers.clearLayers(); Object.values(CITIES).forEach(c=>L.circleMarker([c.lat,c.lon],{radius:10,fillColor:'#22c55e',color:'#fff',weight:2,fillOpacity:0.9}).addTo(markers).bindPopup(c.name));}
+drawMap();
+
+async function fetchCustom(){
+ const cityKey=document.getElementById('citySelect').value; const city=CITIES[cityKey];
+ const from=document.getElementById('fromDate').value.replace(/-/g,''); const to=document.getElementById('toDate').value.replace(/-/g,'');
+ const param=document.getElementById('paramSelect').value;
+ const url=`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${param}&community=AG&longitude=${city.lon}&latitude=${city.lat}&start=${from}&end=${to}&format=JSON`;
+ document.getElementById('stats').innerHTML='⏳ جلب من NASA...';
+ try{
+  const res=await fetch(url); const json=await res.json(); const vals=Object.values(json.properties.parameter[param]); const dates=Object.keys(json.properties.parameter[param]);
+  lastData={dates,vals,param,city:city.name,from,to};
+  const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2); const max=Math.max(...vals).toFixed(2); const min=Math.min(...vals).toFixed(2);
+  document.getElementById('stats').innerHTML=`<b style="color:#22c55e">${city.name} - ${param}</b><br>الفترة: ${from} إلى ${to}<br>• معدل: ${avg}<br>• أعلى: ${max}<br>• أدنى: ${min}<br>• عدد الأيام: ${vals.length}<br><small>NASA POWER مباشر</small>`;
+  drawChart(dates,vals,param);
+  document.getElementById('liveBadge').innerText=`● LIVE - ${city.name} ${new Date().toLocaleDateString('ar-IQ')}`;
+ }catch(e){document.getElementById('stats').innerHTML='⚠️ فشل الجلب - NASA قد يكون بطيء، جرب فترة أقصر (أقل من سنة)';}
+}
+
+function drawChart(labels, data, label){
+ if(chart) chart.destroy();
+ const ctx=document.getElementById('climateChart').getContext('2d');
+ chart=new Chart(ctx,{type:'line',data:{labels:labels.slice(0,100),datasets:[{label:label,data:data.slice(0,100),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.2)',tension:0.3}]},options:{responsive:true,plugins:{legend:{labels:{color:'#fff'}}},scales:{x:{ticks:{color:'#94a3b8',maxTicksLimit:6}},y:{ticks:{color:'#94a3b8'}}}}});
+}
+
+function exportCSV(){
+ if(!lastData){alert('ابحث أولاً');return;}
+ let csv='date,value\n'; lastData.dates.forEach((d,i)=>csv+=`${d},${lastData.vals[i]}\n`);
+ const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`${lastData.city}_${lastData.param}_${lastData.from}_${lastData.to}.csv`; a.click();
+}
+
+async function compareCities(){
+ const from=document.getElementById('fromDate').value.replace(/-/g,''); const to=document.getElementById('toDate').value.replace(/-/g,'');
+ const param=document.getElementById('paramSelect').value;
+ const urls=Object.entries(CITIES).slice(0,2).map(([k,c])=>`https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${param}&community=AG&longitude=${c.lon}&latitude=${c.lat}&start=${from}&end=${to}&format=JSON`);
+ try{
+  const results=await Promise.all(urls.map(u=>fetch(u).then(r=>r.json())));
+  const datasets=results.map((json,i)=>{const vals=Object.values(json.properties.parameter[param]); return {label:Object.values(CITIES)[i].name,data:vals.slice(0,100),borderColor:i==0?'#22c55e':'#38bdf8',tension:0.3}});
+  if(chart) chart.destroy();
+  const ctx=document.getElementById('climateChart').getContext('2d');
+  chart=new Chart(ctx,{type:'line',data:{labels:Object.keys(results[0].properties.parameter[param]).slice(0,100),datasets},options:{responsive:true,plugins:{legend:{labels:{color:'#fff'}}}}});
+  document.getElementById('stats').innerHTML=`⚖️ مقارنة ${Object.values(CITIES)[0].name} vs ${Object.values(CITIES)[1].name} - ${param}`;
+ }catch(e){alert('فشل المقارنة');}
+}
+
+// تحميل أولي من الملفات الحية اذا موجودة
+fetch('./data/live/last_update.json').then(r=>r.json()).then(j=>{document.getElementById('liveBadge').innerText=`● LIVE - ${new Date(j.last_update).toLocaleDateString('ar-IQ')}`;}).catch(()=>{});
+</script>
+</body>
+</html>

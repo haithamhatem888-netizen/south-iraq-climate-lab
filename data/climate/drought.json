@@ -1,0 +1,15 @@
+{
+  "layer_name": "مؤشر الجفاف",
+  "developer": "هيثم",
+  "year": 2026,
+  "drought_index": "SPI-12",
+  "governorates": [
+    {"name": "البصرة", "spi_value": -2.1, "level": "جفاف شديد جدا", "affected_area_percent": 85},
+    {"name": "الناصرية", "spi_value": -1.8, "level": "جفاف شديد", "affected_area_percent": 75},
+    {"name": "العمارة", "spi_value": -1.5, "level": "جفاف متوسط", "affected_area_percent": 60},
+    {"name": "السماوة", "spi_value": -2.5, "level": "جفاف قاسي", "affected_area_percent": 95},
+    {"name": "الديوانية", "spi_value": -1.6, "level": "جفاف متوسط", "affected_area_percent": 65},
+    {"name": "الكوت", "spi_value": -1.2, "level": "جفاف خفيف", "affected_area_percent": 45}
+  ],
+  "trend": "تدهور مستمر منذ 2018"
+}

@@ -1,0 +1,28 @@
+{
+  "layer_name": "شبكة الأنهار",
+  "developer": "هيثم حاتم",
+  "year": 2026,
+  "rivers": [
+    {
+      "name": "دجلة",
+      "governorate": "العمارة - الكوت",
+      "length_km": 1900,
+      "discharge_change": "-45%",
+      "status": "تناقص حاد"
+    },
+    {
+      "name": "الفرات",
+      "governorate": "الناصرية - السماوة - الديوانية",
+      "length_km": 2800,
+      "discharge_change": "-30%",
+      "status": "تناقص متوسط"
+    },
+    {
+      "name": "شط العرب",
+      "governorate": "البصرة",
+      "length_km": 200,
+      "discharge_change": "-60%",
+      "status": "خطر - تقدم لساني"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "layer_name": "ثروة النخيل",
+  "developer": "هيثم",
+  "importance": "اقتصادية وبيئية",
+  "governorates": [
+    {"name": "البصرة", "trees_count": 12000000, "old_count": 30000000, "loss_percent": 60, "main_type": "برحي"},
+    {"name": "العمارة", "trees_count": 3500000, "old_count": 5000000, "loss_percent": 30, "main_type": "ديري"},
+    {"name": "الناصرية", "trees_count": 2800000, "old_count": 4000000, "loss_percent": 30, "main_type": "خستاوي"},
+    {"name": "الكوت", "trees_count": 2200000, "old_count": 3000000, "loss_percent": 26, "main_type": "زهدي"},
+    {"name": "الديوانية", "trees_count": 1800000, "old_count": 2500000, "loss_percent": 28, "main_type": "زهدي"},
+    {"name": "السماوة", "trees_count": 800000, "old_count": 1200000, "loss_percent": 33, "main_type": "متنوع"}
+  ],
+  "note": "خسارة كبيرة بسبب الملوحة وشح المياه"
+}

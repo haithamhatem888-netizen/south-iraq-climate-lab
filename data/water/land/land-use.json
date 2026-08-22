@@ -1,0 +1,37 @@
+{
+  "layer_name": "استخدامات الأراضي",
+  "developer": "هيثم",
+  "year": 2026,
+  "categories": [
+    {
+      "type": "زراعية",
+      "percentage": 35,
+      "area_km2": 45000,
+      "main_crops": ["حنطة", "شعير", "تمور"]
+    },
+    {
+      "type": "صحراوية",
+      "percentage": 40,
+      "area_km2": 52000,
+      "status": "متزايدة بسبب التصحر"
+    },
+    {
+      "type": "أهوار ومسطحات",
+      "percentage": 10,
+      "area_km2": 13000,
+      "status": "متناقصة"
+    },
+    {
+      "type": "حضرية",
+      "percentage": 8,
+      "area_km2": 10000,
+      "status": "تتوسع"
+    },
+    {
+      "type": "سبخات مالحة",
+      "percentage": 7,
+      "area_km2": 9000,
+      "status": "تزداد مع الجفاف"
+    }
+  ]
+}

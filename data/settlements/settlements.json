@@ -1,0 +1,48 @@
+{
+  "layer_name": "التجمعات السكانية",
+  "developer": "هيثم",
+  "governorates": [
+    {
+      "name": "البصرة",
+      "population": 3000000,
+      "urban_percent": 85,
+      "growth_rate": "3.2%",
+      "main_risk": "الغمر بمياه البحر + تلوث"
+    },
+    {
+      "name": "الناصرية",
+      "population": 2100000,
+      "urban_percent": 65,
+      "growth_rate": "2.8%",
+      "main_risk": "شح المياه + زحف صحراوي"
+    },
+    {
+      "name": "العمارة",
+      "population": 1200000,
+      "urban_percent": 55,
+      "growth_rate": "2.5%",
+      "main_risk": "جفاف الأهوار"
+    },
+    {
+      "name": "السماوة",
+      "population": 400000,
+      "urban_percent": 45,
+      "growth_rate": "2.1%",
+      "main_risk": "تصحر وزحف كثبان"
+    },
+    {
+      "name": "الديوانية",
+      "population": 1300000,
+      "urban_percent": 60,
+      "growth_rate": "2.6%",
+      "main_risk": "تدهور زراعي"
+    },
+    {
+      "name": "الكوت",
+      "population": 900000,
+      "urban_percent": 58,
+      "growth_rate": "2.4%",
+      "main_risk": "شح مياه دجلة"
+    }
+  ]
+}

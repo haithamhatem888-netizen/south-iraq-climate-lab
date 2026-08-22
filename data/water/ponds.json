@@ -1,0 +1,31 @@
+{
+  "layer_name": "البرك والمستنقعات",
+  "developer": "هيثم",
+  "type": "موسمية ودائمة",
+  "ponds": [
+    {
+      "id": "pond_01",
+      "governorate": "البصرة",
+      "location": "شمال البصرة",
+      "area_m2": 5000,
+      "season": "موسمية",
+      "source": "مياه الأمطار"
+    },
+    {
+      "id": "pond_02",
+      "governorate": "السماوة",
+      "location": "بادية السماوة",
+      "area_m2": 12000,
+      "season": "دائمة",
+      "source": "مياه جوفية"
+    },
+    {
+      "id": "pond_03",
+      "governorate": "الناصرية",
+      "location": "جنوب الناصرية",
+      "area_m2": 3000,
+      "season": "موسمية",
+      "source": "فيضانات"
+    }
+  ]
+}
